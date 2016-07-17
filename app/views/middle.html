@@ -1,0 +1,31 @@
+	<div class="navbar navbar-default navbar-inverse navbar-collapse" role="navigation" ng-controller="signinCtrl">
+		<div class="navbar-header">
+			<a href="#/Welcome/blog" class="navbar-brand">我的博客</a>
+		</div>
+		<ul class="nav navbar-nav" >
+			<li>
+				<a href="#/Welcome/index">博客首页</a>
+			</li>
+			<li>
+				<a href="#/Welcome/add">写博客</a>
+			</li>
+			<li>
+				<a href="#/Welcome/admin">管理</a>
+			</li>
+			<li>
+				<a href="#/Welcome/personal">个人中心</a>
+			</li>
+<!-- 			 <li ui-sref=".Index"><a href="#">博客首页</a></li> -->
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				<a href="#" ng-click="signin();" ng-hide="rootCtrlScope.username">登录</a>
+				<a href="#" ng-show="rootCtrlScope.username" ng-cloak>{{rootCtrlScope.username}}&nbsp;&nbsp;<span class="label label-success">在线</span></a>
+			</li>
+			<li>
+				<a href="#/Welcome/signup" ng-hide="rootCtrlScope.username">注册</a>
+				<a href="#" ng-show="rootCtrlScope.username" ng-click="logout()">登出</a>
+			</li>
+		</ul>
+	</div>
+	<div ui-view="middle"></div>

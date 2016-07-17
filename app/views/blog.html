@@ -1,0 +1,12 @@
+<div ng-controller="indexCtrl">
+  <div class="container">
+    <div class="hero-unit">
+      <h1>简单介绍</h1>
+      <p>这个是基于NodeJS+AngularJS+MongoDB的个人博客</p>
+      <p ng-hide="rootCtrlScope.username">
+        <a href="" class="btn btn-primary btn-large" ng-click="signin()">登录</a>
+        <a href="" class="btn btn-default btn-large" ng-click="signup()">注册</a>
+      </p>
+    </div>
+  </div>
+</div>

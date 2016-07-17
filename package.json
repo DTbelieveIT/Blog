@@ -1,0 +1,29 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.1",
+    "browser-sync": "^2.13.0",
+    "connect-mongo": "^1.1.0",
+    "cookie-parser": "^1.4.1",
+    "cookie-session": "^2.0.0-alpha.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0",
+    "moment": "^2.13.0",
+    "mongoose": "^4.4.16",
+    "morgan": "^1.7.0",
+    "nrm": "^0.3.1",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.3.0"
+  }
+}

@@ -1,0 +1,36 @@
+<div ng-controller="ArticleCtrl" class="container rows">
+  <div class="col-md-8">
+    <h3>
+      博文管理
+      <small ng-if="article.articleRepeat">博文更新</small>
+      <small ng-if="!article.articleRepeat">博文添加</small>
+    </h3>
+    <form class="form-horizontal" role="form" name="articleForm">
+      <fieldset>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="title">文章标题</label>
+          <div class="col-sm-4">
+            <input type="text" id="inputTitle" class="form-control" name="title" placeholder="增加或修改的文章名称" data-repeat-type="article" data-is-repeat='/article/:id' ng-model="article.title" required ></div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="type">文章类型</label>
+          <div class="col-sm-4">
+            <input type="text" id="inputType" class="form-control" name="type" placeholder="文章类型" data-repeat-type="type"  ng-model="article.type" required ></div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="content">文章内容</label>
+          <div class="col-sm-10">
+            <div class="test_box form-control" contenteditable="true" name="content" ng-model="article.content"><br/></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" type="submit" ng-click="addArticle();" ng-disabled="article.$invalid" ng-show="article.add">添加</button>
+            <button class="btn btn-success" type="submit" ng-click="updateArticle();" ng-disabled="article.$invalid" ng-show="!article.add">修改</button>
+            <button class="btn btn-default" type="button" ng-click="cancel();">取消</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
