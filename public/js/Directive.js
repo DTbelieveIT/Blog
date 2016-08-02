@@ -68,3 +68,58 @@ appDirective.directive('contenteditable', function() {
     }
   };
 });
+
+// 检测是否重复
+appDirective.directive('isRepeat', function($resource) {
+  return {
+    restrict: 'AE',
+    require: 'ngModel',
+    link: function(scope, element, attrs, ctrl) {
+      //根据不同对象进行不同的检查
+      switch (attrs['repeatType']) {
+        case 'user':
+          {
+            scope.$watch('reg.nameIsValid', function(newVal) {
+              if (!newVal) {
+                ctrl.$setValidity('checkName', false);
+              } else {
+                ctrl.$setValidity('checkName', true);
+              }
+            })
+          }
+          break;
+        default:
+          console.log('不需要检查');
+      }
+
+      //检查用户名是否重复
+      scope.$watch('reg.name', function(newValue, oldValue) {
+        //用户名非空
+        if (element.val()) {
+          console.log('checking....');
+          //生成一个resource
+          var resource = $resource(attrs['isRepeat'], {
+            name: '@name'
+          })
+
+          resource.get({
+            name: element.val()
+          }, function(data) {
+            console.log(data);
+            if (data.user) {
+              console.log('用户名重复');
+              scope.reg.nameIsValid = false;
+              scope.reg.showTips = true;
+            } else {
+              console.log('用户名没有重复');
+              scope.reg.nameIsValid = true;
+              scope.reg.showTips = false;
+            }
+          }, function(err) {
+            console.log(err);
+          })
+        }
+      })
+    }
+  }
+})

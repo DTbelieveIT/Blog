@@ -1,7 +1,30 @@
-<div>
-  <div class="container">
-    <div class="hero-unit">
-      <h1>管理中心</h1>
+<div ng-controller="adminCtrl" ng-init="admin.initAdminData();" class="container">
+  <h1>管理中心</h1>
+  <br/>
+  <div class="col-md-8">
+    <div class="form-group" ng-show="rootCtrlScope.isAdmin">
+      <label>当前博主是 : </label>
+      {{admin.data.name}}
+    </div>
+<!--     <div class="form-group">
+      <label>博客文章总数 : </label>
+      {{admin.data.articleTotal}}篇
+    </div> -->
+    <div class="form-group">
+      <label>当前已经注册的人员总数 : </label>
+      {{admin.data.num}}人
+    </div>
+    <div class="form-group">
+      <label>其中管理员有 : </label>
+      <span ng-repeat="people in admin.data.administrator" style="color:blue;">
+        <label>{{people}}&nbsp;&nbsp;</label>
+      </span>
+    </div>
+    <div class="form-group">
+      <label>其中游客有 : </label>
+      <span ng-repeat="people in admin.data.tourist" style="color:gray;">
+        <label>{{people}}&nbsp;&nbsp;</label>
+      </span>
     </div>
   </div>
 </div>

@@ -29,6 +29,21 @@ exports.query = function(req,res){
   })
 }
 
+/*
+  angular1-3-14.min.js:102 TypeError: a.push is not a function
+  有空再解决吧
+ */
+// exports.queryAll = function(req,res){
+//   Article.fetch(function(err,articles){
+//     if(err){
+//       console.log(err);
+//       return res.send({err:err});
+//     }
+//     // res.send({status:articles});
+//     res.send({result:articles});
+//   })
+// }
+
 //查找想要查看的文章
 exports.getArticleData = function(req,res){
   var articleName = req.params.title;

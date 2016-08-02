@@ -7,10 +7,10 @@
 				<a href="#/Welcome/index">博客首页</a>
 			</li>
 			<li>
-				<a href="#/Welcome/add">写博客</a>
+				<a href="#/Welcome/add" ng-show="rootCtrlScope.isAdmin">写博客</a>
 			</li>
 			<li>
-				<a href="#/Welcome/admin">管理</a>
+				<a href="#/Welcome/admin" ng-show="rootCtrlScope.isAdmin">管理</a>
 			</li>
 			<li>
 				<a href="#/Welcome/personal">个人中心</a>

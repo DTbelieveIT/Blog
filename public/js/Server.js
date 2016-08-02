@@ -3,21 +3,33 @@ var appServer = angular.module('appServer', []);
 
 // 使用Module.factory返回服务对象Auth
 appServer.factory('Auth', ['$window', function($window) {
+  var _user = {};
+  _user.role = 0;
   var setUser = function(user, deferred) {
+    _user = user;
     var Days = 1;
     var exp = new Date();
     exp.setTime(exp.getTime() + Days * 0.5 * 60 * 60 * 1000);
     // 添加cookie
     document.cookie = "name=" + user.name + ";expires=" + exp.toGMTString();
+    document.cookie = "role=" + user.role + ";expires=" + exp.toGMTString();
     deferred.resolve('成功生成cookie');
   }
 
   var getUser = function() {
     var name = document.cookie.match(/(^| )name=([^;]*)(;|$)/);
     if (name) {
-      name = name[0]
+      name = name[2]
     }
     return name;
+  }
+
+  var getUserRole = function(){
+    var role = document.cookie.match(/(^| )role=([^;]*)(;|$)/);
+    if(role){
+      role = role[2];
+    }
+    return role;
   }
 
   var logOut = function() {
@@ -30,7 +42,14 @@ appServer.factory('Auth', ['$window', function($window) {
     console.log('cookie删除成功');
   }
 
+  var isAuthorized = function(lvl){
+    return _user.role >= lvl;
+  }
+
   return {
+    isAuthorized:function(lvl){
+      return isAuthorized(lvl);
+    },
     setUser: function(user, deferred) {
       return setUser(user, deferred);
     },
@@ -42,6 +61,9 @@ appServer.factory('Auth', ['$window', function($window) {
     },
     getUser: function() {
       return getUser();
+    },
+    getUserRole:function(){
+      return getUserRole();
     }
   }
 }])

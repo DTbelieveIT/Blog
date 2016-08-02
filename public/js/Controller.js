@@ -2,7 +2,7 @@
 var appController = angular.module('appController', []);
 
 //signupCtrl控制器
-appController.controller('signupCtrl', ['$scope', '$resource', '$uibModal', '$location', function($scope, $resource, $uibModal, $location) {
+appController.controller('signupCtrl', ['$scope', '$resource', '$location', function($scope, $resource, $location) {
   $scope.reg = {};
   $scope.postReg = function() {
     var User = $resource('/user/signup');
@@ -15,6 +15,44 @@ appController.controller('signupCtrl', ['$scope', '$resource', '$uibModal', '$lo
     }, function(err) {
       console.log(err);
     })
+  }
+}])
+
+
+// personalCtrl控制器
+appController.controller('personalCtrl', ['$scope', '$resource', '$location', function($scope, $resource, $location) {
+  $scope.login = {};
+  $scope.login.showTip1 = false;
+  $scope.login.showTip2 = false;
+
+  $scope.updatePassword = function() {
+    var User = $resource('/user/update');
+    User.save({}, {
+      name: $scope.login.name,
+      oldPassword: $scope.login.oldPassword,
+      newPassword: $scope.login.newPassword
+    }, function(data) {
+      if (data.status == '用户不存在') {
+        console.log('用户不存在');
+        $scope.login.showTip1 = true;
+      } else {
+        $scope.login.showTip1 = false;
+        if (data.status == '密码不匹配') {
+          console.log('密码不匹配');
+          $scope.login.showTip2 = true;
+        } else {
+          if (data.status == "OK") {
+            $location.path('/Welcome/index');
+            console.log('用户修改密码成功');
+          } else {
+            console.log('用户修改密码失败');
+          }
+        }
+      }
+    })
+  }
+  $scope.cancel = function() {
+    $location.path('Welcome/index');
   }
 }])
 
@@ -63,6 +101,7 @@ appController.controller('signinCtrl', ['$scope', '$resource', '$uibModal', '$ro
     Auth.logOut();
     console.log('登出成功');
     $rootScope.rootCtrlScope.username = null;
+    $rootScope.rootCtrlScope.isAdmin = false;
   }
 }])
 
@@ -79,8 +118,6 @@ appController.controller('ModalLogIn', ['$scope', '$uibModalInstance', '$resourc
   $scope.submit = function() {
     // 配置resource服务
     var User = $resource('/user/signin');
-    console.log($scope.login.name);
-    console.log($scope.login.password);
     //User.save(params, payload, successFn, errorFn);相当于POST请求
     User.save({}, {
       name: $scope.login.name,
@@ -103,6 +140,12 @@ appController.controller('ModalLogIn', ['$scope', '$uibModalInstance', '$resourc
             $scope.login.isLoggin = true;
             //根作用域
             $rootScope.rootCtrlScope.username = data.user.name;
+
+            //判断用户角色
+            if (data.user.role > 0) {
+              $rootScope.rootCtrlScope.isAdmin = true;
+            }
+
             $uibModalInstance.dismiss();
             $location.path('Welcome/index');
           }, function(err) {
@@ -180,6 +223,10 @@ appController.controller('ArticleCtrl', ['$scope', '$resource', '$uibModal', '$l
     $scope.article.type = type;
     $scope.article.content = content;
   })
+
+  $scope.cancel = function() {
+    $location.path('/Welcome/index');
+  }
 }])
 
 
@@ -270,5 +317,48 @@ appController.controller('readArticleCtrl', ['$scope', '$stateParams', '$resourc
     }, function(err) {
       console.log(err);
     })
+  }
+}])
+
+// adminCtrl控制器
+appController.controller('adminCtrl', ['$scope', '$rootScope','$resource', function($scope, $rootScope, $resource) {
+  $scope.admin = {};
+  $scope.admin.data = {};
+
+  $scope.admin.initAdminData = function() {
+    //获取user的信息
+    var userResource = $resource('/user/query');
+    userResource.get(function(data) {
+        var userArray = data.user;
+        var admin = [];
+        var tourist = [];
+        $scope.admin.data.num = userArray.length;
+        for(var i = 0;i < userArray.length;i++){
+          if(userArray[i]['role'] > 0){
+            admin.push(userArray[i]['name']);
+          }else{
+            tourist.push(userArray[i]['name']);
+          }
+        }
+        $scope.admin.data.administrator = admin;
+        $scope.admin.data.tourist = tourist;
+    }, function(err) {
+      console.log(err);
+    });
+
+    $scope.admin.data.name = $rootScope.rootCtrlScope.username;
+
+    /*
+      angular1-3-14.min.js:102 TypeError: a.push is not a function
+      有空再解决吧
+     */
+     // 获取article的信息
+    // var articleResource = $resource('/article/queryAll');
+    // articleResource.get(function(data){
+    //   console.log(data.result);
+    //   $scope.admin.data.articleTotal = data.result.length;
+    // },function(err){
+    //   console.log(err);
+    // });
   }
 }])

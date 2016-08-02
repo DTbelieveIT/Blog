@@ -7,8 +7,9 @@
       <form method="POST" role="form" name="signupForm">
         <div class="modal-body">
           <div class="form-group">
-            <label>用户名:</label>
-            <input type="text" placeholder="请输入您的用户名" name="name" ng-model="reg.name" class="form-control"></div>
+            <label for="name">用户名:</label>
+            <input type="text" placeholder="请输入您的用户名" name="name" ng-model="reg.name" class="form-control" data-is-repeat="/user/check/:name" data-repeat-type="user" tooltip-placement="top" uib-tooltip="抱歉，该用户名已经存在" tooltip-is-open="reg.showTips" tooltip-trigger="none" require>
+          </div>
           <div class="form-group">
             <label>密码:</label>
             <input type="password" placeholder="请输入您的密码" name="password" ng-model="reg.password" class="form-control"></div>
